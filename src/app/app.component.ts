@@ -7,21 +7,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'bitcoin';
+  title = 'Happy Hotel Room Book';
+
 
   constructor(private router: Router) { }
 
-  buyBtc() {
-    console.log('BUY !');
+  book() {
+    console.log('Book !');
     setTimeout(() => {
-      this.router.navigate(['buy-form/Buy']);
+      document.getElementById("welcome").style.visibility="hidden";
+      this.router.navigate(['order-form']);
     }, 400);
   }
 
-  sellBtc() {
-    console.log('SELL !');
-    setTimeout(() => {
-      this.router.navigate(['sell-form/Sell']);
-    }, 400);
+  cancel() {
+    var result = confirm("Do you want to cancel?");
+    if(result === true){
+      alert("cancel successful");
+      this.router.navigate([""]);
+      document.getElementById("welcome").style.visibility="visible";
+    }
+    
   }
 }

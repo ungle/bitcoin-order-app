@@ -29,22 +29,6 @@ export class EditComponent implements OnInit {
 
   ngOnInit() {
     this.orderId = this.activatedRoute.snapshot.params.orderId;
-    this.bitcoinSvc.getPrice()
-      .then(result => {
-        this.myPrice = result.BTCSGD.ask;
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
-    this.bitcoinSvc.getOrderDetails(this.orderId).then(result => {
-      this.order = result;
-      this.orderTypeDefault = result.orderType;
-      this.gender = result.gender;
-      console.log(result.orderType);
-      console.log(result.orderUnit);
-      this.recalcMyAmt(result.orderType, result.orderUnit);
-    });
   }
 
   processForm(f: NgForm) {
@@ -77,26 +61,8 @@ export class EditComponent implements OnInit {
     }
   }
 
-  recalcMyAmt(buyOrSell, unit: number) {
-    this.bitcoinSvc.getPrice()
-      .then(result => {
-        if (buyOrSell === 'Buy') {
-          this.myPrice = result.BTCSGD.ask;
-        } else if (buyOrSell === 'Sell') {
-          this.myPrice = result.BTCSGD.bid;
-        } else {
-          this.myPrice = 0;
-        }
-        if (isNaN(unit) || isNaN(this.myPrice)) {
-          this.myAmt = '0.00';
-        } else {
-          const sum = unit * this.myPrice;
-          this.myAmt = sum.toFixed(2);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  recalcMyAmt(roomType, unit: number) {
+    this.bitcoinSvc.getPrice(roomType).then( result => {this.myPrice = result});
   }
 
 

@@ -14,10 +14,15 @@ export class FormComponent implements OnInit, AfterViewInit, OnChanges {
   validAge = true;
   genderField: string;
   genderList: string[] = ['Male', 'Female'];
-  tomorrow = new Date();
+  arrive = new Date();
+  leave =new Date(new Date().setDate(new Date().getDate()+1));
   myAmt = '0.00';
   buy = true;
   myPrice = 0;
+  myUnit =0;
+  myNight =0;
+  validTime = true;
+
 
   constructor(private bitcoinSvc: BitcoinService,
               private activatedRoute: ActivatedRoute,
@@ -32,30 +37,13 @@ export class FormComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnInit() {
-    this.orderTypeDefault = this.activatedRoute.snapshot.params.orderType;
-    console.log(this.orderTypeDefault);
-    if ( this.orderTypeDefault === 'Sell' ) {
-      this.buy = false;
-    }
-
-    this.bitcoinSvc.getPrice()
-      .then(result => {
-        console.log(result);
-        this.myPrice = result.ask;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    document.getElementById("welcome").style.visibility="hidden";
+    this.myPrice = 0;
+    this.myNight = 0;
   }
 
-  processForm(f: NgForm, myPrice, myAmt) {
-    const orderType = this.buy ? 'Buy' : 'Sell';
-    console.log(orderType);
-    const x = this.bitcoinSvc.saveOrderDetails(f.value, myPrice, myAmt, orderType).then(result => {
-      console.log(result);
-      this.router.navigate(['/confirm', result.id]);
-    });
-
+  processForm(f: NgForm) {
+    this.router.navigate(['confirm'])
   }
 
   checkAgeValid(dob) {
@@ -70,47 +58,57 @@ export class FormComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  checkBuyOrSell(f: string) {
-    if (f === 'Buy') {
-      this.buy = true;
-    } else if (f === 'Sell') {
-      this.buy = false;
+
+
+  checkTime(type:string,time){
+    if(type ==='leave'){
+      this.leave = new Date(time.value);
+    } else {
+      this.arrive = new Date(time.value);
+    }
+
+    if(this.leave.getTime() < this.arrive.getTime() ){
+      this.validTime = false;
+      if(type === 'arrive'){
+        this.arrive = this.leave;
+      } else {
+        this.leave = this.arrive;
+      }
+    } else {
+      this.validTime = true;
+      this.myNight =Math.ceil((this.leave.getTime() - this.arrive.getTime()) / (3600*24*1000));
     }
   }
 
-  recalcMyAmt(buyOrSell, unit: number) {
-    this.bitcoinSvc.getPrice()
-      .then(result => {
-        if (buyOrSell === 'Buy') {
-          this.myPrice = result.ask;
-        } else if (buyOrSell === 'Sell') {
-          this.myPrice = result.bid;
-        } else {
-          this.myPrice = 0;
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
-    if (isNaN(unit) || isNaN(this.myPrice)) {
+  recalcMyAmt(roomType, unit: number) {
+    this.bitcoinSvc.getPrice(roomType).then( result => {
+      this.myPrice = result;
+      if (isNaN(unit) || isNaN(this.myPrice) || isNaN(this.myNight)) {
       this.myAmt = '0.00';
     } else {
-      const sum = unit * this.myPrice;
+      const sum = unit * this.myPrice * this.myNight;
       this.myAmt = sum.toFixed(2);
+      this.myUnit = unit;
+      console.log(this.myAmt);
     }
+    });
+
+    
   }
 
   resetForm(f: NgForm) {
     console.log(f.value);
     f.controls['contactno'.toString()].reset();
-    f.controls['bitAddress'.toString()].reset();
-    f.controls['myQr'.toString()].reset();
+    f.controls['orderType'.toString()].reset();
+    f.controls['leaveDate'.toString()].reset();
     f.controls['dob'.toString()].reset();
-    f.controls['gender'.toString()].reset();
     f.controls['name'.toString()].reset();
-    f.controls['orderDate'.toString()].reset();
+    f.controls['arriveDate'.toString()].reset();
     f.controls['unit'.toString()].reset();
+    this.myAmt = '0.00';
+    this.myNight = 0;
+    this.myUnit =0;
+    this.myPrice = 0;
   }
 
 }

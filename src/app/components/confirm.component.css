@@ -6,13 +6,13 @@
     flex: 1 1 auto;
 }
 
-.pixel{
-  width: 3.5%;
+
+.paycode{
+  padding: 0;
+  width: 500px;
+  height: 500px;
 }
 
-img{
-  width: 20vw;
-}
 
 div{
   display: flex; 

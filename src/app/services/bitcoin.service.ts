@@ -14,10 +14,17 @@ export class BitcoinService {
 
   myServicePrice: number;
 
-  public getPrice(): Promise<any> {
-    return (
-      this.http.get<any>(`${this.bitcoinPriceApiUrl}?primaryCurry=BTC&secondaryCurry=SGD`).toPromise()
-    );
+  public getPrice(roomType): Promise<number> { 
+  return  new Promise((resolve, reject) => {
+    var basicPrice = 233;
+    if(roomType ==='Luxury'){
+      basicPrice = basicPrice+195;
+    }
+    if(roomType ==='Suite'){
+      basicPrice = basicPrice+996;
+    }
+    return resolve(basicPrice);
+  });
   }
 
   public getOrderDetails(orderId): Promise<Order> {

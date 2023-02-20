@@ -1,18 +1,19 @@
-<mat-toolbar class="green">
-    <mat-toolbar-row [style.backgroundColor]="'#81DF95'">
+<mat-toolbar class="blue">
+    <mat-toolbar-row [style.backgroundColor]="'#474842'">
         <img [routerLink]="['']" src = "assets/pixel.gif" alt = "pixelImg" class="pixel">
-        <span >Bitcoin Changer v1.2</span>
+        <span style="color:blue">Room Booking</span>
         <span class="example-spacer"></span>
         <span> &nbsp;</span>
-        <button mat-raised-button color="primary" (click)="buyBtc()">
-            Buy
+        <button mat-raised-button color="primary" (click)="book()">
+            Book
         </button>
         <span> &nbsp;</span>
-        <button mat-raised-button color="accent" (click)="sellBtc()">
-            Sell
+        <button mat-raised-button color="accent" (click)="cancel()">
+            Cancel
         </button>
    </mat-toolbar-row>
 </mat-toolbar>
 <body>
+    <h1 id="welcome">Welcome to Happy Hotel Room Book!</h1>
 <router-outlet></router-outlet>
 </body>

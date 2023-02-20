@@ -6,9 +6,16 @@
 } */
 
 body {
-    height: 160%;
+    height: 130%;
     display: block;
     position: relative;
+}
+
+h1 {
+    margin: 0;
+    top: 20%;
+    position: relative ;
+    text-align: center;
 }
 
 body::after {
@@ -17,8 +24,8 @@ body::after {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    padding: 2vw;
-    opacity: 0.4;
+    padding: 0;
+    opacity: 0.5;
     top: 0;
     left: 0;
     bottom: 0;

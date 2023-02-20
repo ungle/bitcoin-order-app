@@ -19,12 +19,6 @@ export class ConfirmComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.orderId = this.activatedRoute.snapshot.params.orderId;
-    this.bitcoinSvc.getOrderDetails(this.orderId).then(result => {
-      console.log(result.orderType);
-      this.order = result;
-      this.order.id = this.orderId;
-      this.orderType = result.orderType;
-    });
+    
   }
 }

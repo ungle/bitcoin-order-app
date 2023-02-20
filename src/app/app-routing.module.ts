@@ -8,11 +8,8 @@ import { EditComponent } from './components/edit.component';
 
 const routes: Routes = [
   { path: '', component: ListComponent },
-  { path: 'buy-form/:orderType', component: FormComponent },
-  { path: 'sell-form/:orderType', component: FormComponent },
-  { path: 'edit/:orderId', component: EditComponent },
-  { path: 'confirm/:orderId', component: ConfirmComponent },
-  { path: 'orderList', component: ListComponent },
+  { path: 'order-form', component: FormComponent },
+  { path: 'confirm', component: ConfirmComponent },
   { path: '**', redirectTo: '/', pathMatch: 'full' }
 
 ];
