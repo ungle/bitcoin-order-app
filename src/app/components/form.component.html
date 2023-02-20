@@ -81,10 +81,9 @@
 
     <br>
 
-    <!-- Do NOT parse orderTypeField.value into the checkBuyOrSell event because it does not update fast enough -->
     <mat-form-field>
         <mat-label>Hotel Type</mat-label>
-        <select matNativeControl name="orderType" required ngModel #orderTypeField="ngModel" [(ngModel)]='Common' (ngModelChange)="[recalcMyAmt(orderTypeField.value,unitField.value)]">
+        <select matNativeControl name="orderType" required ngModel #orderTypeField="ngModel"  (ngModelChange)="[recalcMyAmt(orderTypeField.value,unitField.value)]">
           <option value="Common">Common Room</option>
           <option value="Luxury">Luxury Room</option>
           <option value="Suite">Special Suite</option>

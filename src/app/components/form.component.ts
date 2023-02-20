@@ -14,6 +14,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnChanges {
   validAge = true;
   genderField: string;
   genderList: string[] = ['Male', 'Female'];
+  today = new Date();
   arrive = new Date();
   leave =new Date(new Date().setDate(new Date().getDate()+1));
   myAmt = '0.00';
